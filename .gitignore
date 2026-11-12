@@ -1,0 +1,16 @@
+# Keil 编译中间文件
+*.obj
+*.crf
+*.lnp
+*.lst
+*.map
+*.hex
+*.htm
+*.i
+*.o
+*.d
+*.bak
+*.sym
+Objects/
+Listings/
+
