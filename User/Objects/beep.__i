@@ -1,0 +1,1 @@
+"..\Project\beep.c" XSMALL BROWSE INCDIR(..\Project;..\User) DEBUG PRINT(.\Listings\beep.lst) OBJECT(.\Objects\beep.obj)

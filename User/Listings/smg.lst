@@ -1,0 +1,139 @@
+C251 COMPILER V5.60.0,  smg                                                                08/11/26  21:24:38  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE smg
+OBJECT MODULE PLACED IN .\Objects\smg.obj
+COMPILER INVOKED BY: C:\Keil_v5\C251\BIN\C251.EXE ..\Project\smg.c XSMALL BROWSE INCDIR(..\Project;..\User) DEBUG PRINT(
+                    -.\Listings\smg.lst) OBJECT(.\Objects\smg.obj) 
+
+stmt  level    source
+
+    1          #include "smg.h"
+    2          
+    3          //共阴极段码表
+    4          static uint8_t Code_Seg[] = {
+    5              0x3F,       //“0”
+    6                  0x06,   //“1”
+    7                  0x5B,   //“2”
+    8                  0x4F,   //“3”
+    9                  0x66,   //“4”
+   10                  0x6D,   //“5”
+   11                  0x7D,   //“6”
+   12                  0x07,   //“7”
+   13                  0x7F,   //“8”
+   14                  0x6F,   //“9”
+   15                  0x00,   //熄灭
+   16                  0x40    //“-”
+   17          };
+   18          
+   19          //位码表
+   20          static uint8_t Code_Bit[] = {
+   21                  0x01,   //第0位
+   22                  0x02,
+   23                  0x04,
+   24                  0x08,
+   25                  0x10,
+   26                  0x20,
+   27                  0x40,
+   28                  0x80    //第7位
+   29          };                      //从第0位开始显示
+   30          
+   31          //显示缓存
+   32          uint8_t smg_buf[SMG_NUM] = {
+   33                  0,
+   34                  0,
+   35                  SMG_DASH,
+   36                  0,
+   37                  0,
+   38                  SMG_DASH,
+   39                  0,
+   40                  0
+   41          };                                                                      
+   42          
+   43          uint8_t scan_idx = 0;   //扫描下标，取值0~7
+   44          
+   45          uint16_t hour = 0;
+   46          uint16_t minute = 0;
+   47          uint16_t second = 0;
+   48          uint16_t count_ms = 0;          //毫秒计数器
+   49          
+   50          //数码管初始化
+   51          void SMG_Init(void)
+   52          {       
+   53   1              HC595_Port_Init();              //I/O口初始化
+   54   1              
+   55   1              HC595_SendByte(0x00);   //段码清零
+   56   1              HC595_SendByte(0xff);   //位码清零      
+   57   1              HC595_Latch();                  //锁存输出
+   58   1      }
+C251 COMPILER V5.60.0,  smg                                                                08/11/26  21:24:38  PAGE 2   
+
+   59          
+   60          //数码管扫描,显示“00-00-00”
+   61          void SMG_Scan(void)
+   62          {
+   63   1              uint8_t segdat; //用于存放段码数据
+   64   1              uint8_t bitdat; //用于存放位选码数据
+   65   1              
+   66   1              //消隐
+   67   1              HC595_SendByte(0x00);   //段码清零
+   68   1              HC595_SendByte(0xff);   //位码清零
+   69   1              HC595_Latch();                  //锁存输出，全灭
+   70   1              
+   71   1              // 根据当前的扫描下标，查表得到段码、位选码
+   72   1              segdat = Code_Seg[smg_buf[scan_idx]];
+   73   1              bitdat =~ Code_Bit[scan_idx];   //共阴极
+   74   1              
+   75   1              //根据原理图，要先发送段码
+   76   1              HC595_SendByte(segdat); //先发送段码
+   77   1              HC595_SendByte(bitdat); //再发送位选
+   78   1              HC595_Latch();                  //锁存输出，点亮当前位
+   79   1              
+   80   1              // 轮换到下一位，为下一次调用做准备
+   81   1              scan_idx++;
+   82   1              if(scan_idx >= SMG_NUM) 
+   83   1              {
+   84   2                      scan_idx = 0;
+   85   2              }
+   86   1      }
+   87          
+   88          //更新显示缓存
+   89          void SMG_Update(void)
+   90          {
+   91   1              smg_buf[0] = hour / 10;
+   92   1              smg_buf[1] = hour % 10;
+   93   1              
+   94   1              smg_buf[2] = SMG_DASH;
+   95   1              
+   96   1              smg_buf[3] = minute / 10;
+   97   1              smg_buf[4] = minute % 10;
+   98   1              
+   99   1              smg_buf[5] = SMG_DASH;
+  100   1              
+  101   1              smg_buf[6] = second / 10;
+  102   1              smg_buf[7] = second % 10;       
+  103   1      }
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =       164     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =    ------     ------
+  xdata-const size     =    ------     ------
+  edata size           =        37     ------
+  bit size             =    ------     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =        69     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

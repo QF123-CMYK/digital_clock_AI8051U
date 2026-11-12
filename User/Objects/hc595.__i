@@ -1,0 +1,1 @@
+"..\Project\hc595.c" XSMALL BROWSE INCDIR(..\Project;..\User) DEBUG PRINT(.\Listings\hc595.lst) OBJECT(.\Objects\hc595.obj)

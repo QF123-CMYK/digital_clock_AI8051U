@@ -1,0 +1,77 @@
+C251 COMPILER V5.60.0,  hc595                                                              08/11/26  21:24:38  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE hc595
+OBJECT MODULE PLACED IN .\Objects\hc595.obj
+COMPILER INVOKED BY: C:\Keil_v5\C251\BIN\C251.EXE ..\Project\hc595.c XSMALL BROWSE INCDIR(..\Project;..\User) DEBUG PRIN
+                    -T(.\Listings\hc595.lst) OBJECT(.\Objects\hc595.obj) 
+
+stmt  level    source
+
+    1          #include "hc595.h"
+    2          
+    3          //配置与HC595相连的I/O口
+    4          void HC595_Port_Init(void)
+    5          {
+    6   1              P3M1 &= ~0x34; P3M0 |= 0x34; //P32、P34、P35设置为推挽输出
+    7   1              
+    8   1              P32 = 0;        //移位时钟低电平
+    9   1              P35 = 0;        //锁存时钟低电平
+   10   1                                      //HC595不会接收和发送数据
+   11   1      }
+   12          
+   13          //将数据Dat按位发送给HC595
+   14          void HC595_SendByte(uint8_t dat)
+   15          {
+   16   1              uint8_t i;                                      //定义遍历符号  
+   17   1              P35 = 0;                                        //保证进入移位前锁存时钟是低电平，防范干扰
+   18   1              
+   19   1              for(i = 0; i < 8; i++)          //主机发送八位数据
+   20   1              {               
+   21   2                      P34 = ( dat & 0x80 );   //主机从最高位开始发送          
+   22   2                      dat <<= 1;                              //dat左移一位
+   23   2      
+   24   2                      P32 = 0;                                //先确保是低电平
+   25   2                      _nop_();                
+   26   2                      P32 = 1;                                //产生上升沿
+   27   2                      _nop_();                                
+   28   2                      P32 = 0;                                //拉回低电平，准备下一次                
+   29   2                      P35 = 0;                                //每移一位都强行拉低一次，防范干扰
+   30   2              }
+   31   1      }
+   32          
+   33          //命令HC595输出数据
+   34          void HC595_Latch(void)
+   35          {
+   36   1              P35 = 0;        //先确保是低电平
+   37   1              _nop_();
+   38   1              P35 = 1;        //产生上升沿
+   39   1              _nop_();                                
+   40   1              P35 = 0;        //拉回低电平，准备下一次
+   41   1      }
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =        51     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =    ------     ------
+  xdata-const size     =    ------     ------
+  edata size           =    ------     ------
+  bit size             =    ------     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+C251 COMPILER V5.60.0,  hc595                                                              08/11/26  21:24:38  PAGE 2   
+
+  const size           =    ------     ------
+  hconst size          =    ------     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

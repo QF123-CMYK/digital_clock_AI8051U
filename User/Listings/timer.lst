@@ -1,0 +1,80 @@
+C251 COMPILER V5.60.0,  timer                                                              08/11/26  21:24:37  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE timer
+OBJECT MODULE PLACED IN .\Objects\timer.obj
+COMPILER INVOKED BY: C:\Keil_v5\C251\BIN\C251.EXE ..\Project\timer.c XSMALL BROWSE INCDIR(..\Project;..\User) DEBUG PRIN
+                    -T(.\Listings\timer.lst) OBJECT(.\Objects\timer.obj) 
+
+stmt  level    source
+
+    1          #include "timer.h"
+    2          
+    3          bit flag_Timer0 = 0;            //定时器0标志位
+    4          
+    5          uint16_t count_500ms = 0;
+    6          
+    7          void Timer0_Isr(void) interrupt 1
+    8          {
+    9   1              flag_Timer0 = 1;
+   10   1              SMG_Scan();
+   11   1              count_ms++;
+   12   1              
+   13   1              if(count_ms >= 1000)    // 1s
+   14   1              {
+   15   2                      count_ms = 0;
+   16   2                      second++;
+   17   2                      
+   18   2                      if(second >= 60)        // 1min
+   19   2                      {
+   20   3                              second = 0; minute++;
+   21   3                              
+   22   3                              if(minute >= 60)        // 1h
+   23   3                              {
+   24   4                                      minute = 0; hour++;
+   25   4                                      
+   26   4                                      if(hour >= 24)  //24h制
+   27   4                                      {
+   28   5                                              hour = 0;
+   29   5                                      }
+   30   4                              }
+   31   3                      }
+   32   2              }
+   33   1      }
+   34          
+   35          void Timer0_Init(void)          //1毫秒@40.000MHz
+   36          {
+   37   1              AUXR |= 0x80;                   //定时器时钟1T模式
+   38   1              TMOD &= 0xF0;                   //设置定时器模式
+   39   1              TL0 = 0xC0;                             //设置定时初始值
+   40   1              TH0 = 0x63;                             //设置定时初始值
+   41   1              TF0 = 0;                                //清除TF0标志
+   42   1              TR0 = 1;                                //定时器0开始计时
+   43   1              ET0 = 1;                                //使能定时器0中断
+   44   1      }
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =       152     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =    ------     ------
+  xdata-const size     =    ------     ------
+  edata size           =         2     ------
+  bit size             =         1     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+C251 COMPILER V5.60.0,  timer                                                              08/11/26  21:24:37  PAGE 2   
+
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =         6     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
