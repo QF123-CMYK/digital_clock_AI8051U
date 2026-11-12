@@ -2,34 +2,34 @@
 
 bit flag_Timer0 = 0;		//定时器0标志位
 
-uint16_t count_500ms = 0;
-
 void Timer0_Isr(void) interrupt 1
 {
 	flag_Timer0 = 1;
 	SMG_Scan();
 	count_ms++;
 	
-	if(count_ms >= 1000)	// 1s
-	{
-		count_ms = 0;
-		second++;
-		
-		if(second >= 60)	// 1min
-		{
-			second = 0; minute++;
-			
-			if(minute >= 60)	// 1h
-			{
-				minute = 0; hour++;
-				
-				if(hour >= 24)	//24h制
-				{
-					hour = 0;
-				}
-			}
-		}
-	}
+////不调用RTC的情况	
+//	if(count_ms >= 1000)	// 1s
+//	{
+//		count_ms = 0;
+//		second++;
+//		
+//		if(second >= 60)	// 1min
+//		{
+//			second = 0; minute++;
+//			
+//			if(minute >= 60)	// 1h
+//			{
+//				minute = 0; hour++;
+//				
+//				if(hour >= 24)	//24h制
+//				{
+//					hour = 0;
+//				}
+//			}
+//		}
+//	}
+
 }
 
 void Timer0_Init(void)		//1毫秒@40.000MHz

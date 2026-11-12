@@ -9,5 +9,6 @@
 #include "smg.h"
 #include "timer.h"
 #include "hc595.h"
+#include "rtc.h"
 
 #endif

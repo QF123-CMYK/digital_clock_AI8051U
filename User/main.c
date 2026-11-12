@@ -14,6 +14,7 @@ void SYS_Init(void)
 	BEEP_Port_Init();	// 蜂鸣器初始化
 	Timer0_Init();		// 定时器0初始化
 	SMG_Init();			// 数码管初始化
+	RTC_Init();			//RTC初始化
 		
 	EA = 1;				// 打开总中断
 }
@@ -25,5 +26,10 @@ void main(void)
 	while(1)
 	{
 		SMG_Update();	//更新显示缓存
+		
+		if(flag_Timer0)
+		{
+			RTC_ReadTime();		
+		}	
 	}
 }

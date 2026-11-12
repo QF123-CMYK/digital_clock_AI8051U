@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  hc595                                                              08/11/26  21:24:38  PAGE 1   
+C251 COMPILER V5.60.0,  hc595                                                              12/11/26  17:25:27  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE hc595
@@ -67,7 +67,7 @@ Module Information          Static   Overlayable
   ebitaddressable size =    ------     ------
   far data size        =    ------     ------
   huge data size       =    ------     ------
-C251 COMPILER V5.60.0,  hc595                                                              08/11/26  21:24:38  PAGE 2   
+C251 COMPILER V5.60.0,  hc595                                                              12/11/26  17:25:27  PAGE 2   
 
   const size           =    ------     ------
   hconst size          =    ------     ------

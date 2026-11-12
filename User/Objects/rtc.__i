@@ -1,0 +1,1 @@
+"..\Project\rtc.c" XSMALL BROWSE INCDIR(..\Project;..\User) DEBUG PRINT(.\Listings\rtc.lst) OBJECT(.\Objects\rtc.obj)

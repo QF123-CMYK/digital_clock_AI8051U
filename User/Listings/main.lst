@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  main                                                               08/11/26  21:24:37  PAGE 1   
+C251 COMPILER V5.60.0,  main                                                               12/11/26  17:25:26  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE main
@@ -24,24 +24,30 @@ stmt  level    source
    14   1              BEEP_Port_Init();       // 蜂鸣器初始化
    15   1              Timer0_Init();          // 定时器0初始化
    16   1              SMG_Init();                     // 数码管初始化
-   17   1                      
-   18   1              EA = 1;                         // 打开总中断
-   19   1      }
-   20          
-   21          void main(void)
-   22          {
-   23   1              SYS_Init();                     // 初始化
-   24   1              
-   25   1              while(1)
-   26   1              {
-   27   2                      SMG_Update();   //更新显示缓存
-   28   2              }
-   29   1      }
+   17   1              RTC_Init();                     //RTC初始化
+   18   1                      
+   19   1              EA = 1;                         // 打开总中断
+   20   1      }
+   21          
+   22          void main(void)
+   23          {
+   24   1              SYS_Init();                     // 初始化
+   25   1              
+   26   1              while(1)
+   27   1              {
+   28   2                      SMG_Update();   //更新显示缓存
+   29   2                      
+   30   2                      if(flag_Timer0)
+   31   2                      {
+   32   3                              RTC_ReadTime();         
+   33   3                      }       
+   34   2              }
+   35   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =        62     ------
+  code size            =        71     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

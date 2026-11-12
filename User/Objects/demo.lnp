@@ -4,7 +4,8 @@
 ".\Objects\beep.obj",
 ".\Objects\timer.obj",
 ".\Objects\smg.obj",
-".\Objects\hc595.obj" 
+".\Objects\hc595.obj",
+".\Objects\rtc.obj" 
 TO ".\Objects\demo" 
 PRINT(".\Listings\demo.map") CASE 
 REMOVEUNUSED 
