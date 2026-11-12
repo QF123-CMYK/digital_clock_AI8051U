@@ -1,1 +1,0 @@
-"..\Project\timer.c" XSMALL BROWSE INCDIR(..\Project;..\User) DEBUG PRINT(.\Listings\timer.lst) OBJECT(.\Objects\timer.obj)

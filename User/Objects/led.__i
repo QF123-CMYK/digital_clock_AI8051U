@@ -1,1 +1,0 @@
-"..\Project\led.c" XSMALL BROWSE INCDIR(..\Project;..\User) DEBUG PRINT(.\Listings\led.lst) OBJECT(.\Objects\led.obj)

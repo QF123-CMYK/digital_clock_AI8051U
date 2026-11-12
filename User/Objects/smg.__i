@@ -1,1 +1,0 @@
-"..\Project\smg.c" XSMALL BROWSE INCDIR(..\Project;..\User) DEBUG PRINT(.\Listings\smg.lst) OBJECT(.\Objects\smg.obj)
